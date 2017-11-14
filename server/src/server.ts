@@ -177,31 +177,26 @@ class TwigcsServer {
 
         if (docUrl.protocol == "file:" && this._validating[document.uri] === undefined) {
             let commandLine = `twigcs lint ${filePath}`;
-            // let environnement = "linux";
 
-            if (/^win/.test(process.platform)) {
-                // environnement = "windows";
+            cp.exec(commandLine, options, (error, stdout, stderr) => {
+                if (error) {
+                    // this.showErrorMessage(`#1 : ${error}`);
+                }
+                if (stdout) {
+                    diagnostics = this.validateText(stdout);
+                }
+                if (stderr) {
+                    let match = null;
+                    if (match = stderr.match(/\'twigcs\' n\'est pas reconnu en tant que commande interne/i)) {
+                        this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs".`);
+                    } else {
+                        this.showErrorMessage(`${stderr}`);
+                    }
+                }
 
-                cp.exec(commandLine, options, (error, stdout, stderr) => {
-                    if (error) {
-                        // this.showErrorMessage(`#1 : ${error}`);
-                    }
-                    if (stdout) {
-                        diagnostics = this.validateText(stdout);
-                    }
-                    if (stderr) {
-                        let match = null;
-                        if (match = stderr.match(/\'twigcs\' n\'est pas reconnu en tant que commande interne/i)) {
-                            this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs".`);
-                        } else {
-                            this.showErrorMessage(`${stderr}`);
-                        }
-                    }
-
-                    // Send the computed diagnostics to VSCode
-                    this.connection.sendDiagnostics({ uri: document.uri, diagnostics});
-                });
-            }
+                // Send the computed diagnostics to VSCode
+                this.connection.sendDiagnostics({ uri: document.uri, diagnostics});
+            });
         }
     }
 
