@@ -48,6 +48,14 @@ The `twigcs` linter can be installed in your project using the Composer Dependen
 1. Press Enter or click the cloud icon to install it.
 1. Restart Visual Studio Code when prompted.
 
+## Settings
+
+This extension contributes the following variables to the settings :
+
+|Name | Default |Description
+|-----|---------|-----------
+|`twigcs.enabled`|_true_|If true, will activate the twig linter extension.
+
 ## Acknowledgements
 
 The extension architecture is based off of the [Language Server Node Example](https://github.com/Microsoft/vscode-languageserver-node-example) and [phpcs Code Sniffer](https://github.com/ikappas/vscode-phpcs).
