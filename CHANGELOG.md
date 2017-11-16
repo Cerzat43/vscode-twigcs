@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.2.0]
 
 - Adds `CHANGELOG.md` files.
+- Adds example image in the README file.
 - Changes the licence filename.
 
 ## [0.1.2]

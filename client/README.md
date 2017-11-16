@@ -6,6 +6,8 @@
 
 This linter plugin for [Visual Studio Code](https://code.visualstudio.com/) provides an interface to [twigcs](https://github.com/allocine/twigcs). It will be used with files that have the “Twig” language mode.
 
+![Twigcs example](twigcs_ex.png)
+
 ## Installation
 
 Visual Studio Code must be installed in order to use this plugin. If Visual Studio Code is not installed, please follow the instructions [here](https://code.visualstudio.com/Docs/editor/setup).
