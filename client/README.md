@@ -64,4 +64,4 @@ The extension architecture is based off of the [Language Server Node Example](ht
 
 The project is hosted on [GitHub](https://github.com/cerzat43/vscode-twigcs) where you can [report issues](https://github.com/cerzat43/vscode-twigcs/issues), fork the project and submit pull requests.
 
-The project is available under [MIT license](/), which allows modification and redistribution for both commercial and non-commercial purposes.
+The project is available under [MIT license](https://github.com/Cerzat43/vscode-twigcs/blob/master/LICENSE), which allows modification and redistribution for both commercial and non-commercial purposes.

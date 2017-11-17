@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Cyril Soulliage. All rights reserved.
- * Licensed under the MIT License. See License.md in the project root for license information.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 "use strict";
 
