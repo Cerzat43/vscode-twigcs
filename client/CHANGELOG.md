@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.2.0]
 
+- Resolves Twigcs path and improves Linux compatibility.
 - Adds `CHANGELOG.md` file.
 - Adds settings and example image in the README file.
 - Changes the licence filename.

@@ -11,6 +11,7 @@ import {
 } from 'vscode-languageserver';
 
 import * as url from "url";
+import fs = require("fs");
 import path = require("path");
 import cp = require("child_process");
 
@@ -176,27 +177,27 @@ class TwigcsServer {
 		}
 
         if (docUrl.protocol == "file:" && this._validating[document.uri] === undefined) {
-            let commandLine = `twigcs lint ${filePath}`;
+            let resolvedPath = this.resolveTwigcsPath();
+            if (resolvedPath) {
+                let commandLine = resolvedPath + ` lint ${filePath}`;
 
-            cp.exec(commandLine, options, (error, stdout, stderr) => {
-                if (error) {
-                    // this.showErrorMessage(`#1 : ${error}`);
-                }
-                if (stdout) {
-                    diagnostics = this.validateText(stdout);
-                }
-                if (stderr) {
-                    let match = null;
-                    if (match = stderr.match(/\'twigcs\' n\'est pas reconnu en tant que commande interne/i)) {
-                        this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs".`);
-                    } else {
+                cp.exec(commandLine, options, (error, stdout, stderr) => {
+                    if (error) {
+                        // this.showErrorMessage(`#1 : ${error}`);
+                    }
+                    if (stdout) {
+                        diagnostics = this.validateText(stdout);
+                    }
+                    if (stderr) {
                         this.showErrorMessage(`${stderr}`);
                     }
-                }
 
-                // Send the computed diagnostics to VSCode
-                this.connection.sendDiagnostics({ uri: document.uri, diagnostics});
-            });
+                    // Send the computed diagnostics to VSCode
+                    this.connection.sendDiagnostics({ uri: document.uri, diagnostics});
+                });
+            } else {
+                this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs".`);
+            }
         }
     }
 
@@ -240,6 +241,27 @@ class TwigcsServer {
         }
 
         return diagnostics;
+    }
+
+    /**
+     * Solves Twigcs path.
+     *
+     * @return string Twigcs path.
+     */
+    private resolveTwigcsPath(): string {
+        let resolvedPath = null;
+        let twigcsExecutableFile = `twigcs`;
+        let pathSeparator = /^win/.test(process.platform) ? ";" : ":";
+        let globalPaths: string[] = process.env.PATH.split(pathSeparator);
+        globalPaths.some((globalPath: string) => {
+            let testPath = path.join( globalPath, twigcsExecutableFile );
+            if (fs.existsSync(testPath)) {
+                resolvedPath = testPath;
+                return true;
+            }
+            return false;
+        });
+        return resolvedPath;
     }
 
 }
