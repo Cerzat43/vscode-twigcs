@@ -2,7 +2,7 @@
     "name": "twigcs",
     "displayName": "Twigcs Linter",
     "description": "Twig CodeSniffer for Visual Studio Code",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "author": "Cyril Soulliage",
     "publisher": "cerzat43",
     "license": "MIT",
