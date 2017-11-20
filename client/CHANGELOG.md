@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.1]
+
+- Fixes example image for release version.
+
 ## [0.2.0]
 
 - Resolves Twigcs path and improves Linux compatibility.
