@@ -4,7 +4,7 @@
 [![Install Count](https://vsmarketplacebadge.apphb.com/installs/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 [![Open Issues](https://vsmarketplacebadge.apphb.com/rating/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 
-Integrates [twigcs](https://github.com/squizlabs/PHP_CodeSniffer.git) into [Visual Studio Code](https://code.visualstudio.com/).
+Integrates [twigcs](https://github.com/allocine/twigcs) into [Visual Studio Code](https://code.visualstudio.com/).
 
 ## Setup Development Version
 

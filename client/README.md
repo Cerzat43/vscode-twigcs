@@ -6,6 +6,8 @@
 
 This linter plugin for [Visual Studio Code](https://code.visualstudio.com/) provides an interface to [twigcs](https://github.com/allocine/twigcs). It will be used with files that have the “Twig” language mode.
 
+![Twigcs example](twigcs_ex.png)
+
 ## Installation
 
 Visual Studio Code must be installed in order to use this plugin. If Visual Studio Code is not installed, please follow the instructions [here](https://code.visualstudio.com/Docs/editor/setup).
@@ -46,6 +48,14 @@ The `twigcs` linter can be installed in your project using the Composer Dependen
 1. Press Enter or click the cloud icon to install it.
 1. Restart Visual Studio Code when prompted.
 
+## Settings
+
+This extension contributes the following variables to the settings :
+
+|Name | Default |Description
+|-----|---------|-----------
+|`twigcs.enabled`|_true_|If true, will activate the twig linter extension.
+
 ## Acknowledgements
 
 The extension architecture is based off of the [Language Server Node Example](https://github.com/Microsoft/vscode-languageserver-node-example) and [phpcs Code Sniffer](https://github.com/ikappas/vscode-phpcs).
@@ -54,4 +64,4 @@ The extension architecture is based off of the [Language Server Node Example](ht
 
 The project is hosted on [GitHub](https://github.com/cerzat43/vscode-twigcs) where you can [report issues](https://github.com/cerzat43/vscode-twigcs/issues), fork the project and submit pull requests.
 
-The project is available under [MIT license](/), which allows modification and redistribution for both commercial and non-commercial purposes.
+The project is available under [MIT license](https://github.com/Cerzat43/vscode-twigcs/blob/master/LICENSE), which allows modification and redistribution for both commercial and non-commercial purposes.
