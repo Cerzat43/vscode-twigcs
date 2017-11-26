@@ -45,6 +45,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Control whether twigcs is enabled for Twig files or not."
+                },
+                "twigcs.enabledWarning": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Control whether twigcs warnings are enabled or not for Twig files."
                 }
             }
         },

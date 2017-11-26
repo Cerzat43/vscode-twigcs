@@ -124,9 +124,6 @@ export class TwigcsStatus {
 
     private getTimer(): Timer {
         if (!this.timer) {
-            // this.timer = new Timer(()=>{
-            //     this.updateStatusText();
-            // });
             this.timer.interval = 100;
         }
         return this.timer;
