@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.3.0]
 
 - Adds `enabledWarning` propertie
+- Removes package-lock.json
 
 ## [0.2.1]
 
