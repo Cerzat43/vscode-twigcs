@@ -55,6 +55,7 @@ This extension contributes the following variables to the settings :
 |Name | Default |Description
 |-----|---------|-----------
 |`twigcs.enabled`|_true_|If true, will activate the twig linter extension.
+|`twigcs.enabledWarning`|_true_|If true, will activate twig warnings.
 
 ## Acknowledgements
 

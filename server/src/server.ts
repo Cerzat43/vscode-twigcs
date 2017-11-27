@@ -5,9 +5,10 @@
 'use strict';
 
 import {
-    IPCMessageReader, IPCMessageWriter, createConnection, IConnection, TextDocuments,
-    TextDocument, Diagnostic, DiagnosticSeverity, InitializeResult,
-    TextDocumentChangeEvent, Files
+    IPCMessageReader, IPCMessageWriter, createConnection, IConnection,
+    TextDocuments, TextDocument, Diagnostic, DiagnosticSeverity,
+    DidChangeConfigurationParams, DidChangeWatchedFilesParams,
+    InitializeResult, TextDocumentChangeEvent, Files
 } from 'vscode-languageserver';
 
 import * as url from "url";
@@ -15,13 +16,16 @@ import fs = require("fs");
 import path = require("path");
 import cp = require("child_process");
 
+interface TwigcsSettings {
+    enabledWarning: boolean;
+}
+
 class TwigcsServer {
 
     private connection: IConnection;
     private documents: TextDocuments;
-    // private maxNumberOfProblems: number;
-
-    private _validating: { [uri: string]: TextDocument };
+    private globalSettings: TwigcsSettings;
+    private validating: Map<string, TextDocument>;
 
     /**
      * Class constructor.
@@ -29,7 +33,7 @@ class TwigcsServer {
      * @return A new instance of the server.
      */
     constructor() {
-        this._validating = Object.create(null);
+        this.validating = new Map();
 
         // Create a connection for the server. The connection uses Node's IPC as a transport
         this.connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
@@ -43,23 +47,35 @@ class TwigcsServer {
         this.connection.onInitialize(() => {
             return this.onInitialize();
         });
-        this.connection.onDidChangeConfiguration(() => {
-            this.onDidChangeConfiguration();
+        this.connection.onDidChangeConfiguration((params) => {
+            this.onDidChangeConfiguration(params).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
         });
-        // this.connection.onDidChangeWatchedFiles((params) => {
-        //     this.onDidChangeWatchedFiles(params);
-        // });
+        this.connection.onDidChangeWatchedFiles((params) => {
+            this.onDidChangeWatchedFiles(params).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
+        });
         this.documents.onDidOpen((event) => {
-            this.onDidOpenDocument(event);
+            this.onDidOpenDocument(event).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
         });
         this.documents.onDidChangeContent((event) => {
-            this.onDidChangeContent(event);
+            this.onDidChangeContent(event).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
         });
         this.documents.onDidSave((event) => {
-            this.onDidSaveDocument(event);
+            this.onDidSaveDocument(event).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
         });
         this.documents.onDidClose((event) => {
-            this.onDidCloseDocument(event);
+            this.onDidCloseDocument(event).catch((error: Error) => {
+                this.showErrorMessage(error.message);
+            });
         });
     }
 
@@ -70,22 +86,31 @@ class TwigcsServer {
      * @return A promise of initialization result or initialization error.
      */
     private onInitialize() : InitializeResult {
-        return {
-            capabilities: {
-                // Tell the client that the server works in FULL text document sync mode
-                textDocumentSync: this.documents.syncKind,
-                // Tell the client that the server support code complete
-                // completionProvider: {
-                //     resolveProvider: true
-                // }
-            }
-        };
+        let result: InitializeResult = { capabilities: { textDocumentSync: this.documents.syncKind } };
+        return result;
     }
 
-    // connection.onDidChangeWatchedFiles((_change) => {
-    //     // Monitored files have change in VSCode
-    //     connection.console.log('We recevied an file change event');
-    // });
+    /**
+     * The settings have changed. Is send on server activation as well.
+     *
+     * @return void
+     */
+    private async onDidChangeConfiguration(params: DidChangeConfigurationParams): Promise<void> {
+        // this.maxNumberOfProblems = 100;
+        // Revalidate any open text documents
+        this.globalSettings = params.settings.twigcs;
+        await this.validateMany(this.documents.all());
+    }
+
+    /**
+     * The settings have changed. Is send on server activation as well.
+     *
+     * @return void
+     */
+    private async onDidChangeWatchedFiles(_params: DidChangeWatchedFilesParams): Promise<void> {
+        // Monitored files have change in VSCode
+        await this.validateMany(this.documents.all());
+    }
 
     /**
      * Handles opening of text documents.
@@ -93,8 +118,8 @@ class TwigcsServer {
      * @param event The text document change event.
      * @return void
      */
-    private onDidOpenDocument(event: TextDocumentChangeEvent ) : void {
-        this.twigcsDiagnostic(event.document);
+    private async onDidOpenDocument(event: TextDocumentChangeEvent ): Promise<void> {
+        await this.twigcsDiagnostic(event.document);
     }
 
     /**
@@ -103,8 +128,8 @@ class TwigcsServer {
      * @param params The changed configuration parameters.
      * @return void
      */
-    private onDidChangeContent(event: TextDocumentChangeEvent): void {
-        this.twigcsDiagnostic(event.document);
+    private async onDidChangeContent(event: TextDocumentChangeEvent): Promise<void> {
+        await this.twigcsDiagnostic(event.document);
     }
 
     /**
@@ -113,8 +138,8 @@ class TwigcsServer {
      * @param event The text document change event.
      * @return void
      */
-    private onDidSaveDocument(event: TextDocumentChangeEvent ) : void {
-        this.twigcsDiagnostic(event.document);
+    private async onDidSaveDocument(event: TextDocumentChangeEvent ) : Promise<void> {
+        await this.twigcsDiagnostic(event.document);
     }
 
     /**
@@ -123,29 +148,18 @@ class TwigcsServer {
      * @param event The text document change event.
      * @return void
      */
-    private onDidCloseDocument(event: TextDocumentChangeEvent ) : void {
-        this.connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] });
+    private async onDidCloseDocument(event: TextDocumentChangeEvent ) : Promise<void> {
+        await this.connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] });
     }
 
     /**
-     * The settings have changed. Is send on server activation as well.
+     * Show an error message.
      *
-     * @return void
+     * @param message The message to show.
      */
-    private onDidChangeConfiguration(): void {
-        // this.maxNumberOfProblems = 100;
-        // Revalidate any open text documents
-        this.documents.all().forEach(this.twigcsDiagnostic);
+    private showErrorMessage(message: string): void {
+        this.connection.window.showErrorMessage(`[twigcs] ${message}`);
     }
-
-	/**
-	 * Show an error message.
-	 *
-	 * @param message The message to show.
-	 */
-	private showErrorMessage(message: string): void {
-		this.connection.window.showErrorMessage(`[twigcs] ${message}`);
-	}
 
     /**
      * Start listening to requests.
@@ -154,6 +168,18 @@ class TwigcsServer {
      */
     public listen(): void {
         this.connection.listen();
+    }
+
+    /**
+     * Validate a list of text documents.
+     *
+     * @param documents The list of text documents to validate.
+     * @return void
+     */
+    public async validateMany(documents: TextDocument[]): Promise<void> {
+        for (var i = 0, len = documents.length; i < len; i++) {
+            await this.twigcsDiagnostic(documents[i]);
+        }
     }
 
     /**
@@ -169,14 +195,14 @@ class TwigcsServer {
         // Process linting paths.
         let filePath = Files.uriToFilePath(document.uri);
 
-		// Make sure we capitalize the drive letter in paths on Windows.
-		if (filePath !== undefined && /^win/.test(process.platform)) {
-			let pathRoot: string = path.parse(filePath).root;
-			let noDrivePath = filePath.slice(Math.max(pathRoot.length - 1, 0));
-			filePath = path.join(pathRoot.toUpperCase(), noDrivePath);
-		}
+        // Make sure we capitalize the drive letter in paths on Windows.
+        if (filePath !== undefined && /^win/.test(process.platform)) {
+            let pathRoot: string = path.parse(filePath).root;
+            let noDrivePath = filePath.slice(Math.max(pathRoot.length - 1, 0));
+            filePath = path.join(pathRoot.toUpperCase(), noDrivePath);
+        }
 
-        if (docUrl.protocol == "file:" && this._validating[document.uri] === undefined) {
+        if (docUrl.protocol == "file:" && this.validating.has(document.uri) === false) {
             let resolvedPath = this.resolveTwigcsPath();
             if (resolvedPath) {
                 let commandLine = resolvedPath + ` lint ${filePath}`;
@@ -211,32 +237,38 @@ class TwigcsServer {
         let diagnostics: Diagnostic[] = [];
         let lines = text.split(/\r?\n/g);
         let match = null;
+        let yLine: number;
+        let xColumn: number;
+        let type: string;
+        let message: string;
 
         for (var i = 0; i < lines.length; i++) {
             let line = lines[i];
             // https://regex101.com/r/t0L71V/3
             if (match = line.match(/^l.([0-9]+) c.([0-9]+) : (ERROR|WARNING|INFO) ([0-9a-zA-Z ():"|]+\.)$/i)) {
-                let line = Number(match[1].trim()) - 1;
-                let column = Number(match[2].trim()) - 1;
-                let type = match[3].trim();
-                let message = match[4].trim();
+                yLine = Number(match[1].trim()) - 1;
+                xColumn = Number(match[2].trim()) - 1;
+                type = match[3].trim();
+                message = match[4].trim();
 
-                let severity: DiagnosticSeverity = DiagnosticSeverity.Information;
+                let severity: DiagnosticSeverity = null;
                 if (type === 'ERROR') {
                     severity = DiagnosticSeverity.Error
-                } else if (type === 'WARNING') {
+                } else if (type === 'WARNING' && this.globalSettings.enabledWarning == true) {
                     severity = DiagnosticSeverity.Warning
                 }
 
-                diagnostics.push({
-                    severity: severity,
-                    range: {
-                        start: { line: line, character: column },
-                        end: { line: line, character: column + 1 }
-                    },
-                    message: `${message}`,
-                    source: 'twigcs'
-                });
+                if (severity !== null) {
+                    diagnostics.push({
+                        severity: severity,
+                        range: {
+                            start: { line: yLine, character: xColumn },
+                            end: { line: yLine, character: xColumn + 1 }
+                        },
+                        message: `${message}`,
+                        source: 'twigcs'
+                    });
+                }
             }
         }
 
@@ -253,6 +285,7 @@ class TwigcsServer {
         let twigcsExecutableFile = `twigcs`;
         let pathSeparator = /^win/.test(process.platform) ? ";" : ":";
         let globalPaths: string[] = process.env.PATH.split(pathSeparator);
+
         globalPaths.some((globalPath: string) => {
             let testPath = path.join( globalPath, twigcsExecutableFile );
             if (fs.existsSync(testPath)) {
