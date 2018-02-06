@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.4.0]
+
+- Adds `executablePath` propertie
+
 ## [0.3.0]
 
 - Adds `enabledWarning` propertie
