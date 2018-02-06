@@ -18,6 +18,7 @@ import cp = require("child_process");
 
 interface TwigcsSettings {
     enabledWarning: boolean;
+    executablePath: string;
 }
 
 class TwigcsServer {
@@ -203,9 +204,14 @@ class TwigcsServer {
         }
 
         if (docUrl.protocol == "file:" && this.validating.has(document.uri) === false) {
-            let resolvedPath = this.resolveTwigcsPath();
-            if (resolvedPath) {
-                let commandLine = resolvedPath + ` lint ${filePath}`;
+            let executablePath = this.globalSettings.executablePath;
+
+            if (executablePath === null) {
+                executablePath = this.resolveTwigcsPath();
+            }
+
+            if (executablePath) {
+                let commandLine = executablePath + ` lint ${filePath}`;
 
                 cp.exec(commandLine, options, (error, stdout, stderr) => {
                     if (error) {
@@ -222,7 +228,7 @@ class TwigcsServer {
                     this.connection.sendDiagnostics({ uri: document.uri, diagnostics});
                 });
             } else {
-                this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs".`);
+                this.showErrorMessage(`The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs" or set your twigcs.executablePath manually.`);
             }
         }
     }

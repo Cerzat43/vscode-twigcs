@@ -2,7 +2,7 @@
     "name": "twigcs",
     "displayName": "Twigcs Linter",
     "description": "Twig CodeSniffer for Visual Studio Code",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "author": "Cyril Soulliage",
     "publisher": "cerzat43",
     "license": "MIT",
@@ -50,6 +50,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Control whether twigcs warnings are enabled or not for Twig files."
+                },
+                "twigcs.executablePath": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Control the path to the twigcs executable."
                 }
             }
         },
