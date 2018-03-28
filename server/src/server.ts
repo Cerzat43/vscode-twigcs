@@ -250,8 +250,8 @@ class TwigcsServer {
 
         for (var i = 0; i < lines.length; i++) {
             let line = lines[i];
-            // https://regex101.com/r/t0L71V/3
-            if (match = line.match(/^l.([0-9]+) c.([0-9]+) : (ERROR|WARNING|INFO) ([0-9a-zA-Z ():"|]+\.)$/i)) {
+            // https://regex101.com/r/t0L71V/6
+            if (match = line.match(/^l.([0-9]+) c.([0-9]+) : (ERROR|WARNING|INFO) ([0-9a-zA-Z _().:,?"|[\]+-]+\.)$/i)) {
                 yLine = Number(match[1].trim()) - 1;
                 xColumn = Number(match[2].trim()) - 1;
                 type = match[3].trim();
