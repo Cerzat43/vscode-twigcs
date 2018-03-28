@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.4.1]
+
+- Fixes bug for error reporting
+
 ## [0.4.0]
 
 - Adds `executablePath` propertie
