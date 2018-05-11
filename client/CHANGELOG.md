@@ -6,18 +6,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.4.2]
+
+- Fixes notification error on stderr [Issue #7](https://github.com/Cerzat43/vscode-twigcs/issues/7).
+
 ## [0.4.1]
 
-- Fixes bug for error reporting
+- Fixes bug for error reporting.
 
 ## [0.4.0]
 
-- Adds `executablePath` propertie
+- Adds `executablePath` propertie.
 
 ## [0.3.0]
 
-- Adds `enabledWarning` propertie
-- Removes package-lock.json
+- Adds `enabledWarning` propertie.
+- Removes package-lock.json.
 
 ## [0.2.1]
 
