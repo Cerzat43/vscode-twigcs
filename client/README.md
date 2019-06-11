@@ -23,40 +23,40 @@ Once twigcs is installed, you can proceed to install the vscode-twigcs plugin if
 The `twigcs` linter can be installed globally using the Composer Dependency Manager for PHP.
 
 1. Install [composer](https://getcomposer.org/doc/00-intro.md).
-1. Require `twigcs` package by typing the following in a terminal:
+2. Require `twigcs` package by typing the following in a terminal:
 
-    ```bash
-    composer global require allocine/twigcs
-    ```
+```bash
+composer global require allocine/twigcs
+```
 
 ### Project-wide Installation
 
 The `twigcs` linter can be installed in your project using the Composer Dependency Manager for PHP.
 
 1. Install [composer](https://getcomposer.org/doc/00-intro.md).
-1. Require `twigcs` package by typing the following at the root of your project in a terminal:
+2. Require `twigcs` package by typing the following at the root of your project in a terminal:
 
-    ```bash
-    composer require --dev allocine/twigcs
-    ```
+```bash
+composer require --dev allocine/twigcs
+```
 
 ### Plugin Installation
 
 1. Open Visual Studio Code.
-1. Press `Ctrl+P` on Windows or `Cmd+P` on Mac to open the Quick Open dialog.
-1. Type ext install twigcs to find the extension.
-1. Press Enter or click the cloud icon to install it.
-1. Restart Visual Studio Code when prompted.
+2. Press `Ctrl+P` on Windows or `Cmd+P` on Mac to open the Quick Open dialog.
+3. Type ext install twigcs to find the extension.
+4. Press Enter or click the cloud icon to install it.
+5. Restart Visual Studio Code when prompted.
 
 ## Settings
 
 This extension contributes the following variables to the settings :
 
-|Name | Default |Description
-|-----|---------|-----------
-|`twigcs.enabled`|_true_|If true, will activate the twig linter extension.
-|`twigcs.enabledWarning`|_true_|If true, will activate twig warnings.
-|`twigcs.executablePath`|_null_|Controls the executable path for the `twigcs`.
+| Name                    | Default | Description                                       |
+| ----------------------- | ------- | ------------------------------------------------- |
+| `twigcs.enabled`        | _true_  | If true, will activate the twig linter extension. |
+| `twigcs.enabledWarning` | _true_  | If true, will activate twig warnings.             |
+| `twigcs.executablePath` | _null_  | Controls the executable path for the `twigcs`.    |
 
 ## Acknowledgements
 
