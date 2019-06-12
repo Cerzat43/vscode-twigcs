@@ -6,6 +6,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [1.0.0]
+
+- End of beta version.
+- Adds prettier and fixes coding style.
+- Fix Error `Buffer to string`.
+- Update dependencies.
+
 ## [0.4.2]
 
 - Fixes notification error on stderr [Issue #7](https://github.com/Cerzat43/vscode-twigcs/issues/7).
