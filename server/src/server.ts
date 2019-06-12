@@ -226,10 +226,10 @@ class TwigcsServer {
             // this.showErrorMessage(`#1 : ${error}`);
           }
           if (stderr) {
-            diagnostics = diagnostics.concat(this.validateText(stderr));
+            diagnostics = diagnostics.concat(this.validateText(stderr.toString()));
           }
           if (stdout) {
-            diagnostics = diagnostics.concat(this.validateText(stdout));
+            diagnostics = diagnostics.concat(this.validateText(stdout.toString()));
           }
 
           // Send the computed diagnostics to VSCode
