@@ -1,85 +1,87 @@
 {
-    "name": "twigcs",
-    "displayName": "Twigcs Linter",
-    "description": "Twig CodeSniffer for Visual Studio Code",
-    "version": "0.4.2",
-    "author": "Cyril Soulliage",
-    "publisher": "cerzat43",
-    "license": "MIT",
-    "icon": "twigcs_icon.png",
-    "galleryBanner": {
-        "color": "#BBCE29",
-        "theme": "light"
-    },
-    "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cerzat43/vscode-twigcs"
-    },
-    "bugs": {
-        "url": "https://github.com/cerzat43/vscode-twigcs/issues"
-    },
-    "categories": [
-        "Languages",
-        "Linters"
-    ],
-    "keywords": [
-        "php",
-        "twig",
-        "html",
-        "template"
-    ],
-    "engines": {
-        "vscode": "^1.16.0"
-    },
-    "activationEvents": [
-        "onLanguage:twig"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "Twig CodeSniffer configuration",
-            "properties": {
-                "twigcs.enable": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Control whether twigcs is enabled for Twig files or not."
-                },
-                "twigcs.enabledWarning": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Control whether twigcs warnings are enabled or not for Twig files."
-                },
-                "twigcs.executablePath": {
-                    "type": "string",
-                    "default": null,
-                    "description": "Control the path to the twigcs executable."
-                }
-            }
+  "name": "twigcs",
+  "displayName": "Twigcs Linter",
+  "description": "Twig CodeSniffer for Visual Studio Code",
+  "version": "1.0.0",
+  "author": "Cyril Soulliage",
+  "publisher": "cerzat43",
+  "license": "MIT",
+  "icon": "twigcs_icon.png",
+  "galleryBanner": {
+    "color": "#BBCE29",
+    "theme": "light"
+  },
+  "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerzat43/vscode-twigcs"
+  },
+  "bugs": {
+    "url": "https://github.com/cerzat43/vscode-twigcs/issues"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "php",
+    "twig",
+    "html",
+    "template"
+  ],
+  "engines": {
+    "vscode": "^1.16.0"
+  },
+  "activationEvents": [
+    "onLanguage:twig"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Twig CodeSniffer configuration",
+      "properties": {
+        "twigcs.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Control whether twigcs is enabled for Twig files or not."
         },
-        "languages": [
-            {
-                "id": "twig",
-                "aliases": [
-                    "HTML (Twig)",
-                    "twig"
-                ],
-                "extensions": [
-                    ".twig",
-                    ".html.twig"
-                ]
-            }
+        "twigcs.enabledWarning": {
+          "type": "boolean",
+          "default": true,
+          "description": "Control whether twigcs warnings are enabled or not for Twig files."
+        },
+        "twigcs.executablePath": {
+          "type": "string",
+          "default": null,
+          "description": "Control the path to the twigcs executable."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "twig",
+        "aliases": [
+          "HTML (Twig)",
+          "twig"
+        ],
+        "extensions": [
+          ".twig",
+          ".html.twig"
         ]
-    },
-    "scripts": {
-        "compile": "tsc -p ./",
-        "watch": "tsc -w -p ./",
-        "update-vscode": "node ./node_modules/vscode/bin/install",
-        "postinstall": "node ./node_modules/vscode/bin/install"
-    },
-    "dependencies": {
-        "vscode": "^1.1.5",
-        "vscode-languageclient": "^3.4.2"
-    }
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "update-vscode": "node ./node_modules/vscode/bin/install",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^5.2.1"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.34"
+  }
 }

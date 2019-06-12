@@ -1,29 +1,31 @@
 {
-    "name": "twigcs",
-    "description": "Twig CodeSniffer for Visual Studio Code",
-    "author": "Cyril Soulliage",
-    "license": "MIT",
-    "version": "0.4.2",
-    "publisher": "cerzat43",
-    "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cerzat43/vscode-twigcs"
-    },
-    "bugs": {
-        "url": "https://github.com/cerzat43/vscode-twigcs/issues"
-    },
-    "scripts": {
-        "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
-        "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
-        "compile:client": "tsc -p client/tsconfig.json",
-        "watch:client": "tsc -w -p client/tsconfig.json",
-        "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
-        "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json"
-    },
-    "devDependencies": {
-        "@types/mocha": "^2.2.42",
-        "@types/node": "^6.0.88",
-        "typescript": "^2.5.2"
-    }
+  "name": "twigcs",
+  "description": "Twig CodeSniffer for Visual Studio Code",
+  "author": "Cyril Soulliage",
+  "license": "MIT",
+  "version": "1.0.0",
+  "publisher": "cerzat43",
+  "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerzat43/vscode-twigcs"
+  },
+  "bugs": {
+    "url": "https://github.com/cerzat43/vscode-twigcs/issues"
+  },
+  "scripts": {
+    "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
+    "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
+    "compile:client": "tsc -p client/tsconfig.json",
+    "watch:client": "tsc -w -p client/tsconfig.json",
+    "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
+    "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
+    "typescript": "^3.5.1",
+    "vscode": "1.1.34"
+  }
 }

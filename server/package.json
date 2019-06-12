@@ -1,27 +1,27 @@
 {
-    "name": "twigcs",
-    "description": "Twig CodeSniffer for Visual Studio Code",
-    "version": "0.4.2",
-    "author": "Cyril Soulliage",
-    "publisher": "cerzat43",
-    "license": "MIT",
-    "engines": {
-        "node": "*"
-    },
-    "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cerzat43/vscode-twigcs"
-    },
-    "bugs": {
-        "url": "https://github.com/cerzat43/vscode-twigcs/issues"
-    },
-    "dependencies": {
-        "vscode-languageserver": "^3.4.2"
-    },
-    "scripts": {
-        "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
-        "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
-        "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -w -p ."
-    }
+  "name": "twigcs",
+  "description": "Twig CodeSniffer for Visual Studio Code",
+  "version": "1.0.0",
+  "author": "Cyril Soulliage",
+  "publisher": "cerzat43",
+  "license": "MIT",
+  "engines": {
+    "node": "*"
+  },
+  "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerzat43/vscode-twigcs"
+  },
+  "bugs": {
+    "url": "https://github.com/cerzat43/vscode-twigcs/issues"
+  },
+  "dependencies": {
+    "vscode-languageserver": "^5.2.1"
+  },
+  "scripts": {
+    "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
+    "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
+    "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -w -p ."
+  }
 }
