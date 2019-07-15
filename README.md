@@ -24,3 +24,9 @@ To run the development version of the `twigcs` extension:
 - press `Start Debugging` button or hit F5
 
 This will launch a new VS Code window named `Extension Development Host`, automatically using the development version of the `twigcs` extension.
+
+## Credits
+
+Thanks to [contributors](https://github.com/Cerzat43/vscode-twigcs/graphs/contributors) !
+
+Copyright © 2017+
