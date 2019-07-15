@@ -3,7 +3,7 @@
   "description": "Twig CodeSniffer for Visual Studio Code",
   "author": "Cyril Soulliage",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "cerzat43",
   "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
   "repository": {
@@ -24,8 +24,8 @@
   "devDependencies": {
     "prettier": "^1.18.2",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.0.8",
-    "typescript": "^3.5.1",
-    "vscode": "1.1.34"
+    "@types/node": "^12.6.2",
+    "typescript": "^3.5.3",
+    "vscode": "1.1.35"
   }
 }

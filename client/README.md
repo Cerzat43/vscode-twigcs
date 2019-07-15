@@ -4,7 +4,7 @@
 [![Install Count](https://vsmarketplacebadge.apphb.com/installs/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 [![Open Issues](https://vsmarketplacebadge.apphb.com/rating/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 
-This linter plugin for [Visual Studio Code](https://code.visualstudio.com/) provides an interface to [twigcs](https://github.com/allocine/twigcs). It will be used with files that have the “Twig” language mode.
+This linter plugin for [Visual Studio Code](https://code.visualstudio.com/) provides an interface to [twigcs](https://github.com/friendsoftwig/twigcs). It will be used with files that have the “Twig” language mode.
 
 ![Twigcs example](twigcs_ex.png)
 
@@ -14,7 +14,7 @@ Visual Studio Code must be installed in order to use this plugin. If Visual Stud
 
 ## Linter Installation
 
-Before using this plugin, you must ensure that [twigcs](https://github.com/allocine/twigcs) is installed on your system. The installation can be performed system-wide / project-wide using [composer](https://getcomposer.org/).
+Before using this plugin, you must ensure that [twigcs](https://github.com/friendsoftwig/twigcs) is installed on your system. The installation can be performed system-wide / project-wide using [composer](https://getcomposer.org/).
 
 Once twigcs is installed, you can proceed to install the vscode-twigcs plugin if it is not yet installed.
 
@@ -26,7 +26,7 @@ The `twigcs` linter can be installed globally using the Composer Dependency Mana
 2. Require `twigcs` package by typing the following in a terminal:
 
 ```bash
-composer global require allocine/twigcs
+composer global require friendsoftwig/twigcs
 ```
 
 ### Project-wide Installation
@@ -37,7 +37,7 @@ The `twigcs` linter can be installed in your project using the Composer Dependen
 2. Require `twigcs` package by typing the following at the root of your project in a terminal:
 
 ```bash
-composer require --dev allocine/twigcs
+composer require --dev friendsoftwig/twigcs
 ```
 
 ### Plugin Installation

@@ -6,6 +6,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [1.1.0]
+
+- Update Twigcs project path.
+- Add `Known Vulnerabilities` badge.
+- Add credits.
+- Update dependencies.
+
 ## [1.0.0]
 
 - End of beta version.
