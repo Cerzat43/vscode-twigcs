@@ -3,6 +3,7 @@
 [![Current Version](https://vsmarketplacebadge.apphb.com/version/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 [![Install Count](https://vsmarketplacebadge.apphb.com/installs/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
 [![Open Issues](https://vsmarketplacebadge.apphb.com/rating/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
+[![Known Vulnerabilities](https://app.snyk.io/test/github/Cerzat43/vscode-twigcs/badge.svg)](https://app.snyk.io/test/github/Cerzat43/vscode-twigcs)
 
 Integrates [twigcs](https://github.com/friendsoftwig/twigcs) into [Visual Studio Code](https://code.visualstudio.com/).
 
