@@ -237,14 +237,14 @@ class TwigcsServer {
         });
       } else {
         this.showErrorMessage(
-          `The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require allocine/twigcs" or set your twigcs.executablePath manually.`,
+          `The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require friendsoftwig/twigcs" or set your twigcs.executablePath manually.`,
         );
       }
     }
   }
 
   /**
-   * Convert twigcs diagnostic from allocine for vscode diagnostic.
+   * Convert twigcs diagnostic from friendsoftwig for vscode diagnostic.
    *
    * @param text The text diagnostic from twigcs.
    * @return diagnostics Diagnostic[]
