@@ -46,6 +46,7 @@ export function activate(context: ExtensionContext) {
   let client = new LanguageClient('TWIG CodeSniffer Linter', serverOptions, clientOptions);
 
   let status = new TwigcsStatus();
+  status.infoApp();
 
   // Create the settings monitor and start the monitor for the client.
   let monitor = new SettingMonitor(client, 'twigcs.enable').start();
