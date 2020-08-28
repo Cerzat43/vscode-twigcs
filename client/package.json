@@ -2,7 +2,7 @@
   "name": "twigcs",
   "displayName": "Twigcs Linter",
   "description": "Twig CodeSniffer for Visual Studio Code",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Cyril Soulliage",
   "publisher": "cerzat43",
   "license": "MIT",
@@ -76,12 +76,15 @@
     "compile": "tsc -p ./",
     "watch": "tsc -w -p ./",
     "update-vscode": "node ./node_modules/vscode/bin/install",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "preinstall": "rimraf node_modules",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "clean": "rimraf out"
   },
   "dependencies": {
-    "vscode-languageclient": "^5.2.1"
+    "moment": "^2.27.0",
+    "vscode-languageclient": "^3.4.2"
   },
   "devDependencies": {
-    "vscode": "^1.1.35"
+    "vscode": "^1.1.37"
   }
 }

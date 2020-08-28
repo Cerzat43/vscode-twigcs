@@ -3,7 +3,7 @@
   "description": "Twig CodeSniffer for Visual Studio Code",
   "author": "Cyril Soulliage",
   "license": "MIT",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "cerzat43",
   "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
   "repository": {
@@ -14,18 +14,23 @@
     "url": "https://github.com/cerzat43/vscode-twigcs/issues"
   },
   "scripts": {
+    "preinstall": "rimraf node_modules",
     "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
-    "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
+    "clean": "npm-run-all --parallel clean:*",
+    "clean:server": "cd server && npm run clean",
+    "clean:client": "cd client && npm run clean",
+    "compile": "npm-run-all --serial clean:* compile:*",
+    "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
     "compile:client": "tsc -p client/tsconfig.json",
     "watch:client": "tsc -w -p client/tsconfig.json",
-    "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
     "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json"
   },
   "devDependencies": {
-    "prettier": "^1.18.2",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.2",
-    "typescript": "^3.5.3",
-    "vscode": "1.1.35"
+    "prettier": "^2.1.1",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.6.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.0.2",
+    "vscode": "1.1.37"
   }
 }

@@ -5,6 +5,7 @@
 'use strict';
 
 import { window, StatusBarAlignment, StatusBarItem, OutputChannel } from 'vscode';
+import * as Moment from 'moment';
 
 class Timer {
   /**
@@ -78,6 +79,19 @@ export class TwigcsStatus {
   private timer: Timer;
   private outputChannel: OutputChannel;
 
+  public infoApp() {
+    let now = Moment();
+
+    // show infos about the app
+    this.getOutputChannel().appendLine(`Copyright (c) 2017-${now.format('YYYY')} / Cyril Soulliage <cyril.soulliage@gmail.com>`);
+    this.getOutputChannel().appendLine('');
+    this.getOutputChannel().appendLine(`GitHub : https://github.com/cerzat43/vscode-twigcs`);
+    this.getOutputChannel().appendLine(`Twitter: https://twitter.com/cerzat43`);
+    this.getOutputChannel().appendLine(`Donate : [PayPal] https://paypal.me/Cerzat43`);
+    this.getOutputChannel().appendLine('');
+    this.getStatusBarItem().show();
+  }
+
   public startProcessing(uri: string) {
     this.documents.push(uri);
     this.processing += 1;
@@ -139,7 +153,7 @@ export class TwigcsStatus {
   }
   private getOutputChannel(): OutputChannel {
     if (!this.outputChannel) {
-      this.outputChannel = window.createOutputChannel('twigcs');
+      this.outputChannel = window.createOutputChannel('Twigcs');
     }
     return this.outputChannel;
   }

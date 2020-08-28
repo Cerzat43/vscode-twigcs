@@ -21,7 +21,7 @@ export function activate(context: ExtensionContext) {
   let serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
 
   // The debug options for the server
-  let debugOptions = { execArgv: ['--nolazy', '--debug=6009'] };
+  let debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
 
   // If the extension is launched in debug mode then the debug server options are used
   // Otherwise the run options are used
@@ -46,6 +46,7 @@ export function activate(context: ExtensionContext) {
   let client = new LanguageClient('TWIG CodeSniffer Linter', serverOptions, clientOptions);
 
   let status = new TwigcsStatus();
+  status.infoApp();
 
   // Create the settings monitor and start the monitor for the client.
   let monitor = new SettingMonitor(client, 'twigcs.enable').start();

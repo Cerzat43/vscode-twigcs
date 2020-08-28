@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "taskName": "compile",
+      "label": "compile",
       "dependsOn": ["compile:client", "compile:server"],
       "problemMatcher": []
     },
@@ -29,7 +29,7 @@
       "problemMatcher": ["$tsc"]
     },
     {
-      "taskName": "watch",
+      "label": "watch",
       "dependsOn": ["watch:client", "watch:server"],
       "group": {
         "kind": "build",
