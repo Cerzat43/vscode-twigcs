@@ -219,7 +219,7 @@ class TwigcsServer {
       }
 
       if (executablePath) {
-        let commandLine = executablePath + ` lint ${filePath}`;
+        let commandLine = executablePath + ` ${filePath}`;
 
         cp.exec(commandLine, options, (error, stdout, stderr) => {
           if (error) {
