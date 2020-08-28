@@ -76,7 +76,9 @@
     "compile": "tsc -p ./",
     "watch": "tsc -w -p ./",
     "update-vscode": "node ./node_modules/vscode/bin/install",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "preinstall": "rimraf node_modules",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "clean": "rimraf out"
   },
   "dependencies": {
     "moment": "^2.27.0",
