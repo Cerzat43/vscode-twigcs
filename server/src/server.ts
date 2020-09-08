@@ -28,6 +28,7 @@ import cp = require('child_process');
 interface TwigcsSettings {
   enabledWarning: boolean;
   executablePath: string;
+  rulesetClass: string;
 }
 
 class TwigcsServer {
@@ -221,6 +222,10 @@ class TwigcsServer {
       if (executablePath) {
         let commandLine = executablePath + ` ${filePath}`;
 
+        let rulesetClass = this.globalSettings.rulesetClass;
+        if (rulesetClass !== null) {
+          commandLine += ` --ruleset=` + rulesetClass.replace(/\\/gi, '\\\\');
+        }
         cp.exec(commandLine, options, (error, stdout, stderr) => {
           if (error) {
             // this.showErrorMessage(`#1 : ${error}`);

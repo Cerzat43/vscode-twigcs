@@ -52,11 +52,12 @@ composer require --dev friendsoftwig/twigcs
 
 This extension contributes the following variables to the settings :
 
-| Name                    | Default | Description                                       |
-| ----------------------- | ------- | ------------------------------------------------- |
-| `twigcs.enabled`        | _true_  | If true, will activate the twig linter extension. |
-| `twigcs.enabledWarning` | _true_  | If true, will activate twig warnings.             |
-| `twigcs.executablePath` | _null_  | Controls the executable path for the `twigcs`.    |
+| Name                    | Default | Description                                                                                    |
+| ----------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `twigcs.enabled`        | _true_  | If true, will activate the twig linter extension.                                              |
+| `twigcs.enabledWarning` | _true_  | If true, will activate twig warnings.                                                          |
+| `twigcs.executablePath` | _null_  | Controls the executable path for the `twigcs`.                                                 |
+| `twigcs.rulesetClass`   | _null_  | Controls the custom ruleset class. The `\` character must be escaped Ex: `\\twigcs\\MyRuleset` |
 
 ## Acknowledgements
 
