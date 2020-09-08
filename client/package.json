@@ -55,6 +55,11 @@
           "type": "string",
           "default": null,
           "description": "Control the path to the twigcs executable."
+        },
+        "twigcs.rulesetClass": {
+          "type": "string",
+          "default": null,
+          "description": "Control the custom ruleset class. \\ must be escaped (ex : \\\\twigcs\\\\MyRuleset)."
         }
       }
     },

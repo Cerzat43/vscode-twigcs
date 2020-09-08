@@ -4,18 +4,18 @@ All notable changes to the "vscode-twigcs" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [1.3.0]
 
-- [#19](https://github.com/Cerzat43/vscode-twigcs/issues/19) Ability to specify options that are passed to the `twigcs` CLI
+- [#19](https://github.com/Cerzat43/vscode-twigcs/issues/19) Ability to specify ruleset class.
 
 ## [1.2.0]
 
-- [#20](https://github.com/Cerzat43/vscode-twigcs/issues/20) Fix the compatibility with v4.0-BETA4
-- Add app informations in status bar
-- Add cleaning tasks before scripts compilation
-- Update dependencies versions
-- Replace `taskName` deprecated by `label`
-- Fix deprecated parameter `debug`
+- [#20](https://github.com/Cerzat43/vscode-twigcs/issues/20) Fix the compatibility with v4.0-BETA4.
+- Add app informations in status bar.
+- Add cleaning tasks before scripts compilation.
+- Update dependencies versions.
+- Replace `taskName` deprecated by `label`.
+- Fix deprecated parameter `debug`.
 
 ## [1.1.0]
 
