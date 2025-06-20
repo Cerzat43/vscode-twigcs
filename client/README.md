@@ -1,9 +1,5 @@
 # vscode-twigcs
 
-[![Current Version](https://vsmarketplacebadge.apphb.com/version/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
-[![Install Count](https://vsmarketplacebadge.apphb.com/installs/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
-[![Open Issues](https://vsmarketplacebadge.apphb.com/rating/cerzat43.twigcs.svg)](https://marketplace.visualstudio.com/items?itemName=cerzat43.twigcs)
-
 This linter plugin for [Visual Studio Code](https://code.visualstudio.com/) provides an interface to [twigcs](https://github.com/friendsoftwig/twigcs). It will be used with files that have the “Twig” language mode.
 
 ![Twigcs example](twigcs_ex.png)

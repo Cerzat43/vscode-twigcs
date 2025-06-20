@@ -4,6 +4,10 @@ All notable changes to the "vscode-twigcs" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.4.0]
+
+- Update dependencies
+
 ## [1.3.0]
 
 - [#19](https://github.com/Cerzat43/vscode-twigcs/issues/19) Ability to specify ruleset class.

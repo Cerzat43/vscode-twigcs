@@ -11,10 +11,9 @@ import { workspace, ExtensionContext } from 'vscode';
 import {
   LanguageClient,
   LanguageClientOptions,
-  SettingMonitor,
   ServerOptions,
   TransportKind,
-} from 'vscode-languageclient';
+} from 'vscode-languageclient/node';
 
 export function activate(context: ExtensionContext) {
   // The server is implemented in node
@@ -48,11 +47,8 @@ export function activate(context: ExtensionContext) {
   let status = new TwigcsStatus();
   status.infoApp();
 
-  // Create the settings monitor and start the monitor for the client.
-  let monitor = new SettingMonitor(client, 'twigcs.enable').start();
-
-  // Push the monitor to the context's subscriptions so that the
-  // client can be deactivated on extension deactivation
-  context.subscriptions.push(monitor);
+  // Start the client
+  client.start();
+  context.subscriptions.push(client);
   context.subscriptions.push(status);
 }
