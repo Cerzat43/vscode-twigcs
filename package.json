@@ -1,12 +1,15 @@
 {
-  "name": "twigcs",
+"name": "twigcs",
+  "displayName": "Twigcs Linter",
   "description": "Twig CodeSniffer for Visual Studio Code",
-  "author": "Cyril Soulliage",
-  "license": "MIT",
   "version": "1.4.0",
+  "author": "Cyril Soulliage",
   "publisher": "cerzat43",
-  "engines": {
-    "vscode": "^1.89.0"
+  "license": "MIT",
+  "icon": "twigcs_icon.png",
+  "galleryBanner": {
+    "color": "#BBCE29",
+    "theme": "light"
   },
   "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
   "repository": {
@@ -16,25 +19,76 @@
   "bugs": {
     "url": "https://github.com/cerzat43/vscode-twigcs/issues"
   },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "php",
+    "twig",
+    "html",
+    "template"
+  ],
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "activationEvents": [
+    "onLanguage:twig"
+  ],
+  "main": "./client/out/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Twig CodeSniffer configuration",
+      "properties": {
+        "twigcs.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Control whether twigcs is enabled for Twig files or not."
+        },
+        "twigcs.enabledWarning": {
+          "type": "boolean",
+          "default": true,
+          "description": "Control whether twigcs warnings are enabled or not for Twig files."
+        },
+        "twigcs.executablePath": {
+          "type": "string",
+          "default": null,
+          "description": "Control the path to the twigcs executable."
+        },
+        "twigcs.rulesetClass": {
+          "type": "string",
+          "default": null,
+          "description": "Control the custom ruleset class. \\ must be escaped (ex : \\\\twigcs\\\\MyRuleset)."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "twig",
+        "aliases": [
+          "HTML (Twig)",
+          "twig"
+        ],
+        "extensions": [
+          ".twig",
+          ".html.twig"
+        ]
+      }
+    ]
+  },
   "scripts": {
-    "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
-    "clean": "npm-run-all --parallel clean:*",
-    "clean:server": "cd server && npm run clean",
-    "clean:client": "cd client && npm run clean",
-    "compile": "npm-run-all --serial clean:* compile:*",
-    "compile:server": "tsc -p server/tsconfig.json",
-    "compile:client": "tsc -p client/tsconfig.json",
-    "watch:client": "tsc -w -p client/tsconfig.json",
-    "watch:server": "tsc -w -p server/tsconfig.json"
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"postinstall": "cd client && npm install && cd ../server && npm install && cd .."
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^20.11.30",
     "@types/vscode": "^1.89.0",
     "@vscode/test-electron": "^2.4.5",
-    "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5",
-    "rimraf": "^6.0.1",
     "typescript": "^5.4.5"
   },
   "dependencies": {

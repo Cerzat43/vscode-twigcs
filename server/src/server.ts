@@ -25,8 +25,8 @@ import { URI } from 'vscode-uri';
 
 interface TwigcsSettings {
   enabledWarning: boolean;
-  executablePath: string;
-  rulesetClass: string;
+  executablePath: string | null;
+  rulesetClass: string | null;
 }
 
 const defaultSettings: TwigcsSettings = {
@@ -282,7 +282,7 @@ class TwigcsServer {
         type = match[3].trim();
         message = match[4].trim();
 
-        let severity: DiagnosticSeverity = null;
+        let severity: DiagnosticSeverity | null = null;
         if (type === 'ERROR') {
           severity = DiagnosticSeverity.Error;
         } else if (type === 'WARNING' && this.globalSettings.enabledWarning == true) {
@@ -311,11 +311,11 @@ class TwigcsServer {
    *
    * @return string Twigcs path.
    */
-  private resolveTwigcsPath(): string {
-    let resolvedPath = null;
+  private resolveTwigcsPath(): string | null {
+    let resolvedPath: string | null = null;
     let twigcsExecutableFile = `twigcs`;
     let pathSeparator = /^win/.test(process.platform) ? ';' : ':';
-    let globalPaths: string[] = process.env.PATH.split(pathSeparator);
+    let globalPaths: string[] = process.env.PATH?.split(pathSeparator) ?? [];
 
     globalPaths.some((globalPath: string) => {
       let testPath = path.join(globalPath, twigcsExecutableFile);

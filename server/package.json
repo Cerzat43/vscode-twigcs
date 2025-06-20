@@ -6,7 +6,7 @@
   "publisher": "cerzat43",
   "license": "MIT",
   "engines": {
-    "node": "*"
+    "vscode": "^1.89.0"
   },
   "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
   "repository": {
@@ -24,11 +24,6 @@
   "devDependencies": {
     "@types/vscode": "^1.89.0",
     "@vscode/test-electron": "^2.4.5",
-    "rimraf": "^6.0.1",
     "typescript": "^5.4.5"
-  },
-  "scripts": {
-    "watch": "tsc -w -p ./",
-    "clean": "rimraf ../client/server"
   }
 }

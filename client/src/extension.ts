@@ -17,7 +17,9 @@ import {
 
 export function activate(context: ExtensionContext) {
   // The server is implemented in node
-  let serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
+  let serverModule = context.asAbsolutePath(
+    path.join('server', 'out', 'server.js')
+  );
 
   // The debug options for the server
   let debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
@@ -26,7 +28,11 @@ export function activate(context: ExtensionContext) {
   // Otherwise the run options are used
   let serverOptions: ServerOptions = {
     run: { module: serverModule, transport: TransportKind.ipc },
-    debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions },
+    debug: {
+      module: serverModule,
+      transport: TransportKind.ipc,
+      options: debugOptions
+    },
   };
 
   // Options to control the language client
@@ -42,7 +48,11 @@ export function activate(context: ExtensionContext) {
   };
 
   // Create the language client and start the client.
-  let client = new LanguageClient('TWIG CodeSniffer Linter', serverOptions, clientOptions);
+  let client = new LanguageClient(
+    'TWIG CodeSniffer Linter',
+    serverOptions,
+    clientOptions
+  );
 
   let status = new TwigcsStatus();
   status.infoApp();

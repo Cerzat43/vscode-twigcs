@@ -6,10 +6,8 @@
   "author": "Cyril Soulliage",
   "publisher": "cerzat43",
   "license": "MIT",
-  "icon": "twigcs_icon.png",
-  "galleryBanner": {
-    "color": "#BBCE29",
-    "theme": "light"
+  "engines": {
+    "node": "*"
   },
   "homepage": "https://github.com/cerzat43/vscode-twigcs/blob/master/README.md",
   "repository": {
@@ -18,70 +16,6 @@
   },
   "bugs": {
     "url": "https://github.com/cerzat43/vscode-twigcs/issues"
-  },
-  "categories": [
-    "Programming Languages",
-    "Linters"
-  ],
-  "keywords": [
-    "php",
-    "twig",
-    "html",
-    "template"
-  ],
-  "engines": {
-    "vscode": "^1.89.0"
-  },
-  "activationEvents": [
-    "onLanguage:twig"
-  ],
-  "main": "./out/src/extension",
-  "contributes": {
-    "configuration": {
-      "type": "object",
-      "title": "Twig CodeSniffer configuration",
-      "properties": {
-        "twigcs.enable": {
-          "type": "boolean",
-          "default": true,
-          "description": "Control whether twigcs is enabled for Twig files or not."
-        },
-        "twigcs.enabledWarning": {
-          "type": "boolean",
-          "default": true,
-          "description": "Control whether twigcs warnings are enabled or not for Twig files."
-        },
-        "twigcs.executablePath": {
-          "type": "string",
-          "default": null,
-          "description": "Control the path to the twigcs executable."
-        },
-        "twigcs.rulesetClass": {
-          "type": "string",
-          "default": null,
-          "description": "Control the custom ruleset class. \\ must be escaped (ex : \\\\twigcs\\\\MyRuleset)."
-        }
-      }
-    },
-    "languages": [
-      {
-        "id": "twig",
-        "aliases": [
-          "HTML (Twig)",
-          "twig"
-        ],
-        "extensions": [
-          ".twig",
-          ".html.twig"
-        ]
-      }
-    ]
-  },
-  "scripts": {
-    "compile": "tsc -p ./",
-    "watch": "tsc -w -p ./",
-    "update-vscode": "node ./node_modules/vscode/bin/install",
-    "clean": "rimraf out"
   },
   "dependencies": {
     "moment": "^2.27.0",
