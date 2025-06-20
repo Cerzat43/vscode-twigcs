@@ -8,7 +8,6 @@ import {
   createConnection,
   Connection,
   TextDocuments,
-  TextDocument,
   Diagnostic,
   DiagnosticSeverity,
   DidChangeConfigurationParams,
@@ -139,7 +138,7 @@ class TwigcsServer {
    * @param event The text document change event.
    * @return void
    */
-  private async onDidOpenDocument(event: { document: TextDocument }): Promise<void> {
+  private async onDidOpenDocument(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.twigcsDiagnostic(event.document);
   }
 
@@ -149,7 +148,7 @@ class TwigcsServer {
    * @param params The changed configuration parameters.
    * @return void
    */
-  private async onDidChangeContent(event: { document: TextDocument }): Promise<void> {
+  private async onDidChangeContent(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.twigcsDiagnostic(event.document);
   }
 
@@ -169,7 +168,7 @@ class TwigcsServer {
    * @param event The text document change event.
    * @return void
    */
-  private async onDidCloseDocument(event: { document: TextDocument }): Promise<void> {
+  private async onDidCloseDocument(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] });
   }
 
@@ -198,7 +197,7 @@ class TwigcsServer {
    * @param documents The list of text documents to validate.
    * @return void
    */
-  public async validateMany(documents: TextDocument[]): Promise<void> {
+  public async validateMany(documents: TextDocumentFromVSCode[]): Promise<void> {
     for (var i = 0, len = documents.length; i < len; i++) {
       await this.twigcsDiagnostic(documents[i]);
     }
@@ -209,7 +208,7 @@ class TwigcsServer {
    *
    * @return void
    */
-  private twigcsDiagnostic(document: TextDocument): void {
+  private twigcsDiagnostic(document: TextDocumentFromVSCode): void {
     let options = null;
     let docUrl = new URL(document.uri);
     let diagnostics: Diagnostic[] = [];
