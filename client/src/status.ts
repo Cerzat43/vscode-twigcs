@@ -5,7 +5,6 @@
 'use strict';
 
 import { window, StatusBarAlignment, StatusBarItem, OutputChannel } from 'vscode';
-import * as Moment from 'moment';
 
 class Timer {
   /**
@@ -27,7 +26,7 @@ class Timer {
   private enable: boolean = false;
 
   // Member variable: Hold interval id of the timer
-  private handle: NodeJS.Timer;
+  private handle: ReturnType<typeof setInterval>;
 
   /**
    * Class constructor.
@@ -80,10 +79,8 @@ export class TwigcsStatus {
   private outputChannel: OutputChannel;
 
   public infoApp() {
-    let now = Moment();
-
     // show infos about the app
-    this.getOutputChannel().appendLine(`Copyright (c) 2017-${now.format('YYYY')} / Cyril Soulliage <cyril.soulliage@gmail.com>`);
+    this.getOutputChannel().appendLine(`Copyright (c) 2017 - 2025 / Cyril Soulliage <cyril.soulliage@gmail.com>`);
     this.getOutputChannel().appendLine('');
     this.getOutputChannel().appendLine(`GitHub : https://github.com/cerzat43/vscode-twigcs`);
     this.getOutputChannel().appendLine(`Twitter: https://twitter.com/cerzat43`);

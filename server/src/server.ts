@@ -5,37 +5,41 @@
 'use strict';
 
 import {
-  IPCMessageReader,
-  IPCMessageWriter,
   createConnection,
-  IConnection,
+  Connection,
   TextDocuments,
-  TextDocument,
   Diagnostic,
   DiagnosticSeverity,
   DidChangeConfigurationParams,
   DidChangeWatchedFilesParams,
   InitializeResult,
-  TextDocumentChangeEvent,
-  Files,
-} from 'vscode-languageserver';
+  TextDocumentSyncKind,
+} from 'vscode-languageserver/node';
+import { TextDocument as TextDocumentFromVSCode } from 'vscode-languageserver-textdocument';
 
-import * as url from 'url';
 import fs = require('fs');
 import path = require('path');
 import cp = require('child_process');
+import { URI } from 'vscode-uri';
 
 interface TwigcsSettings {
   enabledWarning: boolean;
-  executablePath: string;
-  rulesetClass: string;
+  executablePath: string | null;
+  rulesetClass: string | null;
 }
 
+const defaultSettings: TwigcsSettings = {
+  enabledWarning: true,
+  executablePath: null,
+  rulesetClass: null,
+};
+
 class TwigcsServer {
-  private connection: IConnection;
-  private documents: TextDocuments;
-  private globalSettings: TwigcsSettings;
-  private validating: Map<string, TextDocument>;
+  private connection: Connection;
+  private documents: TextDocuments<TextDocumentFromVSCode>;
+  private validating: Map<string, TextDocumentFromVSCode>;
+
+  private globalSettings: TwigcsSettings = defaultSettings;
 
   /**
    * Class constructor.
@@ -46,10 +50,10 @@ class TwigcsServer {
     this.validating = new Map();
 
     // Create a connection for the server. The connection uses Node's IPC as a transport
-    this.connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
+    this.connection = createConnection();
 
     // Create a simple text document manager. The text document managerc supports full document sync only
-    this.documents = new TextDocuments();
+    this.documents = new TextDocuments(TextDocumentFromVSCode);
 
     // Make the text document manager listen on the connection for open, change and close text document events
     this.documents.listen(this.connection);
@@ -57,32 +61,38 @@ class TwigcsServer {
     this.connection.onInitialize(() => {
       return this.onInitialize();
     });
-    this.connection.onDidChangeConfiguration((params) => {
+
+    this.connection.onDidChangeConfiguration((params: DidChangeConfigurationParams) => {
       this.onDidChangeConfiguration(params).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
     });
-    this.connection.onDidChangeWatchedFiles((params) => {
+
+    this.connection.onDidChangeWatchedFiles((params: DidChangeWatchedFilesParams) => {
       this.onDidChangeWatchedFiles(params).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
     });
-    this.documents.onDidOpen((event) => {
+
+    this.documents.onDidOpen((event: { document: TextDocumentFromVSCode }) => {
       this.onDidOpenDocument(event).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
     });
-    this.documents.onDidChangeContent((event) => {
+
+    this.documents.onDidChangeContent((event: { document: TextDocumentFromVSCode }) => {
       this.onDidChangeContent(event).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
     });
-    this.documents.onDidSave((event) => {
+
+    this.documents.onDidSave((event: { document: TextDocumentFromVSCode }) => {
       this.onDidSaveDocument(event).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
     });
-    this.documents.onDidClose((event) => {
+
+    this.documents.onDidClose((event: { document: TextDocumentFromVSCode }) => {
       this.onDidCloseDocument(event).catch((error: Error) => {
         this.showErrorMessage(error.message);
       });
@@ -96,7 +106,7 @@ class TwigcsServer {
    * @return A promise of initialization result or initialization error.
    */
   private onInitialize(): InitializeResult {
-    let result: InitializeResult = { capabilities: { textDocumentSync: this.documents.syncKind } };
+    let result: InitializeResult = { capabilities: { textDocumentSync: TextDocumentSyncKind.Full } };
     return result;
   }
 
@@ -128,7 +138,7 @@ class TwigcsServer {
    * @param event The text document change event.
    * @return void
    */
-  private async onDidOpenDocument(event: TextDocumentChangeEvent): Promise<void> {
+  private async onDidOpenDocument(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.twigcsDiagnostic(event.document);
   }
 
@@ -138,7 +148,7 @@ class TwigcsServer {
    * @param params The changed configuration parameters.
    * @return void
    */
-  private async onDidChangeContent(event: TextDocumentChangeEvent): Promise<void> {
+  private async onDidChangeContent(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.twigcsDiagnostic(event.document);
   }
 
@@ -148,7 +158,7 @@ class TwigcsServer {
    * @param event The text document change event.
    * @return void
    */
-  private async onDidSaveDocument(event: TextDocumentChangeEvent): Promise<void> {
+  private async onDidSaveDocument(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.twigcsDiagnostic(event.document);
   }
 
@@ -158,7 +168,7 @@ class TwigcsServer {
    * @param event The text document change event.
    * @return void
    */
-  private async onDidCloseDocument(event: TextDocumentChangeEvent): Promise<void> {
+  private async onDidCloseDocument(event: { document: TextDocumentFromVSCode }): Promise<void> {
     await this.connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] });
   }
 
@@ -177,6 +187,7 @@ class TwigcsServer {
    * @return void
    */
   public listen(): void {
+    this.documents.listen(this.connection);
     this.connection.listen();
   }
 
@@ -186,7 +197,7 @@ class TwigcsServer {
    * @param documents The list of text documents to validate.
    * @return void
    */
-  public async validateMany(documents: TextDocument[]): Promise<void> {
+  public async validateMany(documents: TextDocumentFromVSCode[]): Promise<void> {
     for (var i = 0, len = documents.length; i < len; i++) {
       await this.twigcsDiagnostic(documents[i]);
     }
@@ -197,13 +208,13 @@ class TwigcsServer {
    *
    * @return void
    */
-  private twigcsDiagnostic(document: TextDocument): void {
+  private twigcsDiagnostic(document: TextDocumentFromVSCode): void {
     let options = null;
-    let docUrl = url.parse(document.uri);
+    let docUrl = new URL(document.uri);
     let diagnostics: Diagnostic[] = [];
 
     // Process linting paths.
-    let filePath = Files.uriToFilePath(document.uri);
+    let filePath = URI.parse(document.uri).fsPath;
 
     // Make sure we capitalize the drive letter in paths on Windows.
     if (filePath !== undefined && /^win/.test(process.platform)) {
@@ -241,9 +252,7 @@ class TwigcsServer {
           this.connection.sendDiagnostics({ uri: document.uri, diagnostics });
         });
       } else {
-        this.showErrorMessage(
-          `The 'twigcs' dependency was not found. You may need to update your dependencies using "composer global require friendsoftwig/twigcs" or set your twigcs.executablePath manually.`,
-        );
+        console.error(`The 'twigcs' dependency was not found.`);
       }
     }
   }
@@ -272,7 +281,7 @@ class TwigcsServer {
         type = match[3].trim();
         message = match[4].trim();
 
-        let severity: DiagnosticSeverity = null;
+        let severity: DiagnosticSeverity | null = null;
         if (type === 'ERROR') {
           severity = DiagnosticSeverity.Error;
         } else if (type === 'WARNING' && this.globalSettings.enabledWarning == true) {
@@ -301,11 +310,11 @@ class TwigcsServer {
    *
    * @return string Twigcs path.
    */
-  private resolveTwigcsPath(): string {
-    let resolvedPath = null;
+  private resolveTwigcsPath(): string | null {
+    let resolvedPath: string | null = null;
     let twigcsExecutableFile = `twigcs`;
     let pathSeparator = /^win/.test(process.platform) ? ';' : ':';
-    let globalPaths: string[] = process.env.PATH.split(pathSeparator);
+    let globalPaths: string[] = process.env.PATH?.split(pathSeparator) ?? [];
 
     globalPaths.some((globalPath: string) => {
       let testPath = path.join(globalPath, twigcsExecutableFile);
@@ -319,5 +328,6 @@ class TwigcsServer {
   }
 }
 
+console.log('Twigcs LSP server démarré');
 let server = new TwigcsServer();
 server.listen();
